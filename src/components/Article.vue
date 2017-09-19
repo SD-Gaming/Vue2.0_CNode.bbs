@@ -6,16 +6,28 @@
 	    <div class="article" v-else>
 			<h1>{{post.title}}</h1>
 			<ul>
-				<li>分类：{{ post.tab }}</li>
-				<li>访问：{{ post.visit_count }}</li>
-				<li>发布于：{{ post.create_at | formatDate }}</li>
+				<li>• 分类:{{ postTab }}</li>
+				<li>• {{ post.visit_count }}次访问</li>
+				<li>• 发布于:{{ post.create_at | formatDate }}</li>
 				<li>
-					作者：
+					• 作者:
 					<router-link :to="{ name:'user_info',params:{name:post.author.loginname }}">{{ post.author.loginname }}</router-link>
 				</li>
 			</ul>
 			<div v-html="post.content" id="content"></div>
 		</div>
+        <div id='reply'>
+            <div v-for='reply in post.replies' class='replySec'>
+                <div class='replyUp'>
+                	<router-link :to='{name: "user_info",params:{name: reply.author.loginname}}'><img :src='reply.author.avatar_url'></router-link>
+       			    <router-link :to='{name: "user_info",params:{name: reply.author.loginname}}'>{{reply.author.loginname}}</router-link>
+                </div>
+                <section v-if='reply.ups.length > 0' class='thumbsClass'>
+           	         <span>❤ </span>{{reply.ups.length}}
+                </section>
+                <p v-html='reply.content'></p>
+            </div>
+    	</div>
 	</div>
 </template>
 
@@ -31,6 +43,23 @@
 	      },
   	      loading:false
 	    }
+	  },
+	  computed:{
+	  	postTab(){
+	  		var type = this.post.tab.toString();
+	  		if(type = 'ask'){
+	  			return '问答';
+	  		};
+	  		if(type = 'share'){
+	  			return '分享';
+	  		};
+	  		if(type = 'job'){
+	  			return '招聘';
+	  		};
+	  		if(type = 'good'){
+	  			return '精华';
+	  		};
+	  	}
 	  },
   	  methods: {
 	  	getData(){
@@ -64,22 +93,90 @@
 解决的话把scoped属性去掉就行了*/
 	@import url("../assets/markdown-github.css");
 	.ArticleSection {
-		width: 60%;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 		display: inline-block;
+		width: 70%;
+		border: 1px solid #ddd;	
+	    padding: 0.1rem 0.4rem;
+	    margin-left: 3%;
 	}
 	.ArticleSection #content {
-		margin: 2rem auto 2rem auto;
 		padding: 2rem 1rem 2rem 1rem;
-		border: 1px solid #ddd;
 		line-height: 1.6;
 		padding-bottom: 1rem;
-		background: #EFF2F7;
 	}
-	/*.AuthorSection #content  h1:first-of-type {
-		display:none;
-	}*/
 	.ArticleSection > h1 {
-		font-size: 1em;
+		font-size: 0.1rem;
 	}
+	.article {
+		background: white;
+   	    margin-bottom: 10px;
+        padding-left: 20px;
+        padding-top: 10px;
+
+	}
+	.article h1 {
+		font-size:1.2rem;
+		font-weight: 600;
+	}
+	.article >ul li {
+		display: inline-block;
+		font-size:0.8rem ;
+		color:#a8a3a3 ;
+		padding-left: 5px;
+	}
+	.article li a {
+	    color: inherit;
+   		 text-decoration: none;
+	}
+    .replySec {
+        box-sizing: border-box;
+        /*display: flex;*/
+        border-bottom: 1px solid #C0CCDA;
+        width: 100%;
+        /*margin: 0.5rem auto;*/
+        padding: 1rem;
+        background: white;
+    }
+    /*.replySec > p:before {
+    	display: block; content: ""; width: 0; clear: left;
+    }*/
+    #reply {
+        display: flex;
+        flex-direction: column;
+    }
+    .replyUp {
+    	display: inline-block;
+    }
+    .thumbsClass {
+    	float: right;
+    }
+    .replyUp > a{
+    	color: black;
+	   	text-decoration: none;
+		font-weight: 600;
+    }
+    .replyUp a:nth-of-type(2) {
+    	margin-left: -14px;
+    	vertical-align: super;
+    }
+    .thumbsClass  {
+    	color: red;
+    }
+    .replySec > p {
+    	padding-left: 50px;
+    	clear: both;
+    }
+    .replySec img {
+    	width: 1.5rem;
+    	height: 1.5rem;
+    	margin-right: 1rem;
+    }	
+    .replySec p img {
+    	overflow: hidden;
+    	width: 100%;
+    	height: 100%;
+    }
 </style>

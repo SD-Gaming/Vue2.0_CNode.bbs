@@ -49,7 +49,12 @@
 <style scoped>
 	.SideBar {
 		float: right;
+		width: 24%;
 		box-sizing: border-box;
-		width: 40%;
+	    margin-right: 3%;
+	    padding: 0.1rem 0.4rem;		
+	}
+	.SideBar img {
+		width: 100%;
 	}
 </style>

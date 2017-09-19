@@ -67,13 +67,20 @@
 </script>
 
 <style scoped>
+	.PostList .posts {
+		background-color: white;
+		padding: 0.5rem;
+		margin: 0.5rem 3rem;
+	}
 	.PostList .posts li {
 		list-style: none;
-		margin-bottom: 15px;
+		margin-bottom: 14px;
+		border-bottom: 1px solid #E7E7E7;
+		line-height: 30px;
 	}
 	.PostList .posts ul li img {
-		width: 30px;
-		height: 30px;
+		width: 1.5rem;
+		height: 1.5rem;
 	}
 	.PostList .posts li span {
 		display: inline-block;
@@ -85,8 +92,20 @@
 	.PostList .posts a {
 		text-decoration: none;
 		color: inherit;
+	    -o-text-overflow: ellipsis;
+	    white-space: nowrap;
+	    display: inline-block;
+	    vertical-align: middle;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    max-width: 70%;
 	}
-	.last_reply {
+	.PostList .posts a:visited {
+		color:#858585;
+	}	
+	.PostList .posts .last_reply {
 		float: right;
+   		font-size: 0.7rem;
+   	    margin-top: 0.3rem;
 	}
 </style>
