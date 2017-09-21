@@ -12,7 +12,7 @@
 					<span>
 						{{ post.reply_count }}/{{ post.visit_count }}
 					</span>
-					<router-link :to="{ name: 'post_content', params: { id: post.id }}" :title="post.title">
+					<router-link :to="{ name: 'post_content', params: { id: post.id,name:post.author.loginname }}" :title="post.title">
 						{{ post.title }}
 					</router-link>
 					<span class="last_reply">

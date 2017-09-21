@@ -17,10 +17,13 @@
 			<div v-html="post.content" id="content"></div>
 		</div>
         <div id='reply'>
-            <div v-for='reply in post.replies' class='replySec'>
+            <div v-for='(reply,index) in post.replies' class='replySec'>
                 <div class='replyUp'>
                 	<router-link :to='{name: "user_info",params:{name: reply.author.loginname}}'><img :src='reply.author.avatar_url'></router-link>
        			    <router-link :to='{name: "user_info",params:{name: reply.author.loginname}}'>{{reply.author.loginname}}</router-link>
+       			    <span>
+       			    	{{index + 1}}楼
+       			    </span>
                 </div>
                 <section v-if='reply.ups.length > 0' class='thumbsClass'>
            	         <span>❤ </span>{{reply.ups.length}}
@@ -33,58 +36,64 @@
 
 <script>
 	export default {
-	  name: '',
-	  data () {
-	    return {
-	      post: {                   
-	      	author: {
-                loginname: 'temp',//设置默认值，防止Vue在axios未被调用前报错
-               }
-	      },
-  	      loading:false
-	    }
-	  },
-	  computed:{
-	  	postTab(){
-	  		var type = this.post.tab.toString();
-	  		if(type = 'ask'){
-	  			return '问答';
-	  		};
-	  		if(type = 'share'){
-	  			return '分享';
-	  		};
-	  		if(type = 'job'){
-	  			return '招聘';
-	  		};
-	  		if(type = 'good'){
-	  			return '精华';
-	  		};
-	  	}
-	  },
-  	  methods: {
-	  	getData(){
-			this.$http({
-	            url: `https://cnodejs.org/api/v1/topic/${this.$route.params.id}`,   //ES6语法，引入组件内的 route object（路由信息对象） 
-	            method: 'get',
-	            params:{
-	            	mdrender:true
-	            }
-	          })
-			  .then( (response) => {
-			  	if( response.data.success === true ){
-			  		this.post = response.data.data;
-			  		this.loading = false;
-			  	}
-			  })
-			  .catch(function (error) {
-			  	console.log(error);
-			  });
-	  	}
-	  },
+		name: 'Article',
+	    data () {
+		    return {
+		      post: {                   
+		      	author: {
+	                loginname: 'temp',//设置默认值，防止Vue在axios未被调用前报错
+	               }
+		      },
+	  	      loading:false
+		    }
+		},
+		computed:{
+		  	postTab(){
+		  		var type = this.post.tab.toString();
+		  		if(type = 'ask'){
+		  			return '问答';
+		  		};
+		  		if(type = 'share'){
+		  			return '分享';
+		  		};
+		  		if(type = 'job'){
+		  			return '招聘';
+		  		};
+		  		if(type = 'good'){
+		  			return '精华';
+		  		};
+		  	}
+		},
+	  	methods: {
+		  	getData(){
+		  		//获取文章信息
+				this.$http({
+		            url: `https://cnodejs.org/api/v1/topic/${this.$route.params.id}`,   //ES6语法，引入组件内的 route object（路由信息对象） 
+		            method: 'get',
+		            params:{
+		            	mdrender:true
+		            }
+		          })
+				  .then( (response) => {
+				  	if( response.data.success === true ){
+				  		this.post = response.data.data;
+				  		this.loading = false;
+				  	}
+				  })
+				  .catch(function (error) {
+				  	console.log(error);
+				  });
+		  	}
+		},
 	    beforeMount() {
 	    	this.loading = true;
 	        this.getData();
-	    }
+	    },
+	    watch:{
+			$route(){
+				this.getData();
+			}
+		}
 	}
 </script>
 
@@ -99,7 +108,7 @@
 		display: inline-block;
 		width: 70%;
 		border: 1px solid #ddd;	
-	    padding: 0.1rem 0.4rem;
+	    padding: 0.8rem 0.4rem;
 	    margin-left: 3%;
 	}
 	.ArticleSection #content {
@@ -133,22 +142,25 @@
 	}
     .replySec {
         box-sizing: border-box;
-        /*display: flex;*/
         border-bottom: 1px solid #C0CCDA;
         width: 100%;
-        /*margin: 0.5rem auto;*/
         padding: 1rem;
         background: white;
     }
-    /*.replySec > p:before {
-    	display: block; content: ""; width: 0; clear: left;
-    }*/
     #reply {
         display: flex;
         flex-direction: column;
     }
     .replyUp {
     	display: inline-block;
+    }
+    .replyUp span {
+    	display: inline-block;
+	    vertical-align: top;
+	    margin-top: 7px;
+	    margin-left: 6px;
+	    font-size: 14px;
+	    color: #806767;
     }
     .thumbsClass {
     	float: right;

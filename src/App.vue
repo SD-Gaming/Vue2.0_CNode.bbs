@@ -14,18 +14,18 @@ export default {
   components:{
   	cnHeader,
   },
-  
-  
 }
 </script>
 
 <style>
+	html {
+    background-color: #DDDDDD;
+	}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
     font-size: 20px;
-    background-color: #DDDDDD;
 }
 body,div,span,a,p,ul,li {
 	margin: 0;
