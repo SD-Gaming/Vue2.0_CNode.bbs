@@ -1,6 +1,6 @@
-# cnode
+# CNode
 
-> 根据CNode社区提供的API使用Vue2.0 + Webpack + axios + Vue-router 实现了社区基础功能， 内含代码注释，希望能帮到你~
+> 根据CNode社区提供的API使用Vue2.x + Webpack + axios + Vue-router 实现了社区基础功能， 内含代码注释，希望能帮到你~
 
 ## Build Setup
 
